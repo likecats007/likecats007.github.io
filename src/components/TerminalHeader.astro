@@ -3,7 +3,7 @@ import { SITE_TITLE, SITE_TAGLINE, SITE_VERSION, SITE_BUILD_ID } from '../consts
 import TerminalToggles from './TerminalToggles.astro';
 
 const buildDate = new Date()
-  .toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+  .toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', year: 'numeric' })
   .toUpperCase();
 
 const { pathname } = Astro.url;
