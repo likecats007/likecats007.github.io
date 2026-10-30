@@ -1,8 +1,8 @@
 // Site-wide settings — edit these to make the template your own.
-export const SITE_TITLE = 'ASTRO TERMINAL';
-export const SITE_TAGLINE = 'PERSONAL BLOG // NOTES, ARTICLES, FIELD LOGS';
+export const SITE_TITLE = 'Min의 블로그';
+export const SITE_TAGLINE = '개인 블로그 // NOTES, ARTICLES, FIELD LOGS';
 export const SITE_DESCRIPTION =
-  'A personal blog with a retro terminal look: notes, articles and field logs.';
+  '배우고 학습한 내용을 적는 개인 블로그입니다.';
 export const SITE_VERSION = '0.0.1';
 
 // Fictional terminal manufacturer, shown on the boot screen, the 404 page
