@@ -2,6 +2,7 @@
 title: 'A short history of retro terminals'
 description: 'Where the amber and green screen aesthetic comes from — and why it still works.'
 pubDate: 2026-07-15
+category: '개발'
 tags: ['retro', 'hardware']
 heroImage: './images/signal.png'
 ---
