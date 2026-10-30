@@ -2,6 +2,7 @@
 title: 'First post: how this template works'
 description: 'A quick tour of the template and how to start writing.'
 pubDate: 2026-07-10
+category: '개발'
 tags: ['meta', 'astro']
 ---
 
