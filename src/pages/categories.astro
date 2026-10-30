@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Frame from '../components/Frame.astro';
+import PostItem from '../components/PostItem.astro';
+
+const categories = [
+  '개발',
+  'CTF/Wargame',
+  'Bug Bounty',
+  '블로그/기술문서',
+  '논문/컨퍼런스',
+  '공모전/자격증',
+];
+
+const posts = (
+  await getCollection('blog', ({ data }) => !data.draft)
+).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout title="CATEGORIES">
+  <h1>카테고리별 게시물</h1>
+
+  {categories.map((category) => {
+    const categoryPosts = posts.filter(
+      (post) => post.data.category === category
+    );
+
+    return (
+      <Frame title={category}>
+        <p>{categoryPosts.length}개의 게시물</p>
+
+        <div class="menu-list">
+          {categoryPosts.length > 0 ? (
+            categoryPosts.map((post) => <PostItem post={post} />)
+          ) : (
+            <p>아직 게시물이 없습니다.</p>
+          )}
+        </div>
+      </Frame>
+    );
+  })}
+</Layout>
