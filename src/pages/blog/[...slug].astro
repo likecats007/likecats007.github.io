@@ -26,6 +26,8 @@ const updated = updatedDate?.toISOString().slice(0, 10);
       <p class="post-meta">
         DATE: <time datetime={date}>{date}</time>
         {updated && <> // UPDATED: <time datetime={updated}>{updated}</time></>}
+        {' // CATEGORY: '}
+        <a href="/categories/">[{category}]</a>
         {tags.length > 0 && (
           <>
             {' // TAGS: '}
