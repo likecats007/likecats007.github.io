@@ -10,6 +10,7 @@ const blog = defineCollection({
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
       heroImage: image().optional(),
+      category: z.string().default('미분류'),
       tags: z.array(z.string()).default([]),
       draft: z.boolean().default(false),
     }),
