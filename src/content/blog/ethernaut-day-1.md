@@ -2,7 +2,8 @@
 title: 'Ethernaut 1일차: Sepolia에서 시작한 스마트 컨트랙트 보안 실습'
 description: 'MetaMask와 Sepolia를 설정하고 Ethernaut의 Fallback, Fallout, Coin Flip, Telephone을 따라가며 Solidity와 컨트랙트 호출 흐름을 배운 기록.'
 pubDate: 2026-11-04
-tags: ['ctf', 'ethernaut', 'solidity', 'web3']
+category: 'CTF/Wargame'
+tags: ['Wargame', 'Ethernaut', 'Solidity', 'Web3']
 ---
 
 오늘은 스마트 컨트랙트 보안 워게임인 **Ethernaut**를 시작했다. MetaMask 지갑을 만들고 Sepolia 테스트넷을 연결한 뒤, 테스트 ETH를 받아 Remix와 브라우저 콘솔을 오가며 문제를 풀었다.
