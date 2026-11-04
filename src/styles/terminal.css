@@ -694,6 +694,7 @@ button {
 }
 
 .crt-boot__lines {
+  font-family: 'neodgm', monospace;
   font-size: clamp(0.7rem, 2.6vw, 1rem);
   white-space: pre-wrap;
   opacity: 0;
