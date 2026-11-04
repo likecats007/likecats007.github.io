@@ -533,6 +533,7 @@ button {
 }
 
 .prose pre {
+  font-family: inherit;
   background: var(--bg-deep);
   border: 1px solid var(--fg);
   padding: 16px 20px;
