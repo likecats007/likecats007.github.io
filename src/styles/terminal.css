@@ -525,7 +525,7 @@ button {
 }
 
 .prose code {
-  font-family: inherit;
+  font-family: 'neodgm', monospace;
   background: var(--bg-deep);
   padding: 1px 6px;
   border: 1px solid var(--fg-dim);
@@ -533,7 +533,7 @@ button {
 }
 
 .prose pre {
-  font-family: inherit;
+  font-family: 'neodgm', monospace;
   background: var(--bg-deep);
   border: 1px solid var(--fg);
   padding: 16px 20px;
@@ -541,7 +541,7 @@ button {
 }
 
 .prose pre code {
-  font-family: inherit;
+  font-family: 'neodgm', monospace;
   background: none;
   border: none;
   padding: 0;
