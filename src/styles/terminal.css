@@ -540,7 +540,7 @@ button {
 }
 
 .prose pre code {
-  font-family: monospace;
+  font-family: inherit;
   background: none;
   border: none;
   padding: 0;
