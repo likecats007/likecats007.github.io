@@ -1,0 +1,74 @@
+media:
+  - name: blog_images
+    label: 블로그 이미지
+    input: src/content/blog/images
+    output: ./images
+    categories: [image]
+
+content:
+  - name: blog
+    label: 블로그 글
+    type: collection
+    path: src/content/blog
+    format: yaml-frontmatter
+    exclude:
+      - images/**
+    filename:
+      template: "{primary}.md"
+      field: create
+    fields:
+      - name: title
+        label: 제목
+        type: string
+        required: true
+      - name: description
+        label: 요약
+        type: text
+        required: true
+      - name: pubDate
+        label: 게시일
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: updatedDate
+        label: 수정일
+        type: date
+        default: ""
+        options:
+          format: yyyy-MM-dd
+      - name: category
+        label: 카테고리
+        type: string
+        default: 미분류
+      - name: tags
+        label: 태그
+        type: string
+        default: []
+        list: true
+      - name: heroImage
+        label: 대표 이미지
+        type: image
+        options:
+          media: blog_images
+          path: src/content/blog/images
+      - name: draft
+        label: 초안
+        type: boolean
+        default: false
+      - name: body
+        label: 본문
+        type: rich-text
+        options:
+          format: markdown
+          media: blog_images
+          path: src/content/blog/images
+          switcher: true
+    view:
+      primary: title
+      fields: [title, pubDate, category, draft]
+      search: [title, description, category, tags]
+      sort: [pubDate, title]
+      default:
+        sort: pubDate
+        order: desc
