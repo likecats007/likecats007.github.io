@@ -92,11 +92,11 @@ def preflight() -> int:
 
 def wait_for_random_time() -> int:
     now = datetime.now(KST)
-    start = now.replace(hour=22, minute=0, second=0, microsecond=0)
-    end = start + timedelta(hours=1)
+    start = now.replace(hour=19, minute=0, second=0, microsecond=0)
+    end = start + timedelta(hours=3)
 
     if now >= end:
-        message = "오후 11시 이후 시작되어 기다리지 않고 바로 수집을 진행합니다."
+        message = "오후 10시 이후 시작되어 기다리지 않고 바로 수집을 진행합니다."
         print(message)
         write_step_summary(message)
         set_output("publish", "true")
