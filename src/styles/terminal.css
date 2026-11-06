@@ -343,15 +343,36 @@ button {
   min-width: 0;
 }
 
-.mi-date {
+.mi-details {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
   margin-left: auto;
+  flex: 0 0 auto;
+}
+
+.mi-category {
+  padding: 0 4px;
+  border: 1px solid var(--fg-dim);
+  color: var(--fg-dim);
+  font-size: 0.82em;
+}
+
+.mi-date {
   flex: 0 0 auto;
   color: var(--fg-dim);
 }
 
 .menu-item:hover .mi-date,
-.menu-item:focus-visible .mi-date {
+.menu-item:focus-visible .mi-date,
+.menu-item:hover .mi-category,
+.menu-item:focus-visible .mi-category {
   color: var(--bg);
+}
+
+.menu-item:hover .mi-category,
+.menu-item:focus-visible .mi-category {
+  border-color: var(--bg);
 }
 
 .mi-arrow {
@@ -368,7 +389,7 @@ button {
 }
 
 @media (max-width: 640px) {
-  /* Marker and title on one line, date below. The arrow is dropped: it
+  /* Marker and title on one line, category and date below. The arrow is dropped: it
      wrapped onto a line of its own and sat there orphaned. */
   .menu-item {
     flex-wrap: wrap;
@@ -377,7 +398,7 @@ button {
   }
   .mi-marker { flex: 0 0 auto; }
   .mi-title { flex: 1 1 0; }
-  .mi-date { order: 3; width: 100%; margin: 2px 0 0 34px; }
+  .mi-details { order: 3; width: 100%; margin: 2px 0 0 34px; }
   .mi-arrow { display: none; }
 }
 

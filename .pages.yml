@@ -39,8 +39,17 @@ content:
           format: yyyy-MM-dd
       - name: category
         label: 카테고리
-        type: string
+        type: select
         default: 미분류
+        options:
+          values:
+            - 개발
+            - CTF/Wargame
+            - Bug Bounty
+            - 블로그/기술문서
+            - 논문/컨퍼런스
+            - 공모전/자격증
+            - 미분류
       - name: tags
         label: 태그
         type: string
