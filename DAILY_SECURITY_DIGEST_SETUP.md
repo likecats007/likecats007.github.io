@@ -22,10 +22,10 @@ set the optional Actions variable `OPENAI_MODEL` to use a different API model.
 
 ## Schedule and behavior
 
-GitHub Actions starts the job at 10:02 Asia/Seoul and the job waits until a
-random time before 11:00 before searching X. If GitHub starts the scheduled job
-after 11:00, it searches immediately instead of skipping the run. GitHub can
-delay scheduled jobs during periods of high load.
+GitHub Actions starts the scheduled job at 21:59 Asia/Seoul and waits for a
+random time between 22:00 and 23:00 before searching. If GitHub delays the job
+until after 23:00, it searches immediately instead of skipping. Manual runs
+search immediately.
 
 The X recent-search endpoint only covers the recent-post window. This workflow
 searches the preceding 24 hours, requests up to 10 posts per language query,
@@ -34,6 +34,4 @@ per day. If no suitable post is found, it publishes a short note saying so.
 Duplicate daily files are skipped. Titles count generated posts from day 1.
 Descriptions stay limited to claims present in the source post.
 
-The workflow can also be started from the repository's Actions tab. Manual runs
-use a random time through 11:00 KST if started earlier, and run immediately if
-started after 11:00.
+The workflow can also be started manually from the repository's Actions tab.

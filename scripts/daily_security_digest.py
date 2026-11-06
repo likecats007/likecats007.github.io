@@ -92,11 +92,11 @@ def preflight() -> int:
 
 def wait_for_random_time() -> int:
     now = datetime.now(KST)
-    start = now.replace(hour=10, minute=0, second=0, microsecond=0)
+    start = now.replace(hour=22, minute=0, second=0, microsecond=0)
     end = start + timedelta(hours=1)
 
     if now >= end:
-        message = "오전 11시 이후 시작되어 무작위 대기 없이 바로 수집을 진행합니다."
+        message = "오후 11시 이후 시작되어 기다리지 않고 바로 수집을 진행합니다."
         print(message)
         write_step_summary(message)
         set_output("publish", "true")
@@ -104,8 +104,10 @@ def wait_for_random_time() -> int:
 
     earliest = max(now, start)
     available_seconds = max(0, int((end - earliest).total_seconds()) - 1)
-    delay_seconds = random.SystemRandom().randint(0, available_seconds)
-    target_time = earliest + timedelta(seconds=delay_seconds)
+    target_time = earliest + timedelta(
+        seconds=random.SystemRandom().randint(0, available_seconds)
+    )
+    delay_seconds = max(0, int((target_time - now).total_seconds()))
     print(f"오늘의 작성 시각: {target_time.strftime('%H:%M:%S')} KST")
     if delay_seconds:
         time.sleep(delay_seconds)
