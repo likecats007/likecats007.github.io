@@ -2,7 +2,7 @@
 title: 지금까지의 활동 돌아보기와 다음 계획
 description: 활동을 돌아보고 부족한 부분과 이를 채우기 위한 계획을 정리합니다.
 pubDate: 2026-11-07
-category: 미분류
+category: 블로그/기술문서
 draft: false
 ---
 ### 지금까지의 활동 돌아보기와 다음 계획
