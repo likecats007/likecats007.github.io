@@ -295,6 +295,21 @@ def next_day_number() -> int:
     return max(existing_day_numbers, default=0) + 1
 
 
+def existing_digest_for_date(date: str) -> Path | None:
+    date_pattern = re.compile(
+        rf"^pubDate:\s*['\"]?{re.escape(date)}['\"]?\s*$", re.MULTILINE
+    )
+    title_pattern = re.compile(
+        r"^title:\s*['\"]?X에 올라오는 최신 보안이슈 매일 스크랩하기 \d+일차",
+        re.MULTILINE,
+    )
+    for path in BLOG_DIR.glob("*.md"):
+        content = path.read_text(encoding="utf-8")
+        if date_pattern.search(content) and title_pattern.search(content):
+            return path
+    return None
+
+
 def write_blog_post(
     items: list[dict], candidates: list[dict], day_number: int
 ) -> Path:
@@ -352,9 +367,12 @@ def publish() -> int:
 
     now = datetime.now(KST)
     date = now.strftime("%Y-%m-%d")
-    output_path = BLOG_DIR / f"x-security-{date}.md"
-    if output_path.exists():
-        message = f"오늘 브리핑 파일이 이미 있어 중복 발행하지 않습니다: `{output_path.name}`"
+    existing_path = existing_digest_for_date(date)
+    if existing_path:
+        message = (
+            f"오늘 브리핑 글이 이미 있어 중복 발행하지 않습니다: "
+            f"`{existing_path.name}`"
+        )
         print(message)
         write_step_summary(message)
         return 0
