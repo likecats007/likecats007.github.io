@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: "59 18 * * *"
       timezone: "Asia/Seoul"
+    - cron: "55 21 * * *"
+      timezone: "Asia/Seoul"
   workflow_dispatch:
 
 permissions:
@@ -17,7 +19,7 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 240
     env:
       OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-6-luna' }}
     steps:
