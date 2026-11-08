@@ -365,7 +365,8 @@ def publish() -> int:
         write_step_summary(message)
         return 0
 
-    end_time = datetime.now(timezone.utc)
+    # X recent search rejects end_time values less than 10 seconds in the past.
+    end_time = datetime.now(timezone.utc) - timedelta(seconds=30)
     start_time = end_time - timedelta(hours=24)
     candidates = search_posts(start_time, end_time)
     items = summarize_candidates(candidates) if candidates else []
