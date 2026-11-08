@@ -26,11 +26,12 @@ content:
         type: text
         required: true
       - name: pubDate
-        label: 게시일
+        label: 게시 일시
         type: date
         required: true
         options:
-          format: yyyy-MM-dd
+          time: true
+          format: "yyyy-MM-dd'T'HH:mm"
       - name: updatedDate
         label: 수정일
         type: date

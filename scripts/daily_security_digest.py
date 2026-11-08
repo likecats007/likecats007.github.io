@@ -300,7 +300,8 @@ def next_day_number() -> int:
 
 def existing_digest_for_date(date: str) -> Path | None:
     date_pattern = re.compile(
-        rf"^pubDate:\s*['\"]?{re.escape(date)}['\"]?\s*$", re.MULTILINE
+        rf"^pubDate:\s*['\"]?{re.escape(date)}(?:T\d{{2}}:\d{{2}})?['\"]?\s*$",
+        re.MULTILINE,
     )
     title_pattern = re.compile(
         r"^title:\s*['\"]?X에 올라오는 최신 보안이슈 매일 스크랩하기 \d+일차",
@@ -335,7 +336,7 @@ def write_blog_post(
         "---",
         f"title: {yaml_scalar(title)}",
         f"description: {yaml_scalar(description)}",
-        f"pubDate: {date}",
+        f"pubDate: {now.strftime('%Y-%m-%dT%H:%M')}",
         f"category: {yaml_scalar('블로그/기술문서')}",
         'tags: ["보안", "X", "리서치"]',
         "draft: false",
