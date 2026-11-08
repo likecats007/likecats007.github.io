@@ -25,25 +25,27 @@ const tags = [...tagCounts.entries()].sort(
 ---
 
 <Layout>
-  <Frame title="LATEST ENTRIES">
-    <div class="menu-list">
-      {posts.map((post) => <PostItem post={post} />)}
-      <a class="menu-item" href="/blog/">
-        <span class="mi-marker" aria-hidden="true">▪ &gt;</span>
-        <span class="mi-title">VIEW FULL ARCHIVE…</span>
-        <span class="mi-arrow" aria-hidden="true">›</span>
-      </a>
-    </div>
-  </Frame>
-
-  <Frame title="TAG INDEX">
-    <div class="tag-cloud">
-      {tags.map(([tag, count]) => (
-        <a class="tag-count" href={`/blog/tag/${encodeURIComponent(tag)}/`}>
-          <span>#{tag}</span>
-          <span class="tag-count-number">{count}</span>
+  <div class="home-sections">
+    <Frame title="LATEST ENTRIES">
+      <div class="menu-list">
+        {posts.map((post) => <PostItem post={post} />)}
+        <a class="menu-item" href="/blog/">
+          <span class="mi-marker" aria-hidden="true">▪ &gt;</span>
+          <span class="mi-title">VIEW FULL ARCHIVE…</span>
+          <span class="mi-arrow" aria-hidden="true">›</span>
         </a>
-      ))}
-    </div>
-  </Frame>
+      </div>
+    </Frame>
+
+    <Frame title="TAG INDEX">
+      <div class="tag-cloud">
+        {tags.map(([tag, count]) => (
+          <a class="tag-count" href={`/blog/tag/${encodeURIComponent(tag)}/`}>
+            <span>#{tag}</span>
+            <span class="tag-count-number">{count}</span>
+          </a>
+        ))}
+      </div>
+    </Frame>
+  </div>
 </Layout>

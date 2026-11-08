@@ -395,6 +395,17 @@ button {
   gap: 10px;
 }
 
+.home-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  margin: 40px 0;
+}
+
+.home-sections > .frame {
+  margin: 0;
+}
+
 .tag-count {
   display: inline-flex;
   align-items: center;
