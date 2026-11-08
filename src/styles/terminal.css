@@ -388,6 +388,42 @@ button {
   margin-top: 0;
 }
 
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border: 1px solid var(--fg-dim);
+}
+
+.tag-count-number {
+  min-width: 1.5em;
+  padding: 0 4px;
+  border: 1px solid var(--fg-dim);
+  color: var(--fg-dim);
+  text-align: center;
+  font-size: 0.82em;
+}
+
+.tag-count:hover,
+.tag-count:focus-visible {
+  background: var(--fg);
+  color: var(--bg);
+  text-shadow: none;
+}
+
+.tag-count:hover .tag-count-number,
+.tag-count:focus-visible .tag-count-number {
+  border-color: var(--bg);
+  color: var(--bg);
+}
+
 .category-sep {
   margin: 24px 0 10px;
   color: var(--fg-dim);
