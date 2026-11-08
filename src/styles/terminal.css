@@ -391,7 +391,15 @@ button {
 .tag-cloud {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 10px;
+}
+
+.home-section-divider {
+  width: 84%;
+  margin: 0 auto;
+  border: 0;
+  border-top: 1px dashed var(--fg-dim);
 }
 
 .tag-count {
