@@ -398,7 +398,7 @@ button {
 .home-sections {
   display: flex;
   flex-direction: column;
-  gap: 1.5em;
+  gap: 40px;
   margin: 40px 0;
 }
 
