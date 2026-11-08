@@ -2,7 +2,7 @@ name: Daily X security digest
 
 on:
   schedule:
-    - cron: "0 23 * * *"
+    - cron: "7 22 * * *"
       timezone: "Asia/Seoul"
   workflow_dispatch:
 
@@ -17,7 +17,7 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    timeout-minutes: 30
     env:
       OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-6-luna' }}
     steps:
