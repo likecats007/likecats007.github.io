@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import random
 import re
 import sys
 import time
@@ -87,35 +86,6 @@ def preflight() -> int:
 
     set_output("ready", "true")
     print("필수 API secrets가 설정되어 있습니다.")
-    return 0
-
-
-def wait_for_random_time() -> int:
-    now = datetime.now(KST)
-    start = now.replace(hour=19, minute=0, second=0, microsecond=0)
-    end = start + timedelta(hours=3)
-
-    if now < start or now >= end:
-        message = (
-            "예약 실행이 오늘 게시 시간대(오후 7시~10시) 밖에서 시작되어 "
-            "다음 시간대까지 기다리지 않고 바로 수집을 진행합니다."
-        )
-        print(message)
-        write_step_summary(message)
-        set_output("publish", "true")
-        return 0
-
-    earliest = max(now, start)
-    available_seconds = max(0, int((end - earliest).total_seconds()) - 1)
-    target_time = earliest + timedelta(
-        seconds=random.SystemRandom().randint(0, available_seconds)
-    )
-    delay_seconds = max(0, int((target_time - now).total_seconds()))
-    print(f"오늘의 작성 시각: {target_time.strftime('%H:%M:%S')} KST")
-    if delay_seconds:
-        time.sleep(delay_seconds)
-
-    set_output("publish", "true")
     return 0
 
 
@@ -398,13 +368,10 @@ def publish() -> int:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--preflight", action="store_true")
-    parser.add_argument("--wait-randomly", action="store_true")
     args = parser.parse_args()
 
     if args.preflight:
         return preflight()
-    if args.wait_randomly:
-        return wait_for_random_time()
     return publish()
 
 
