@@ -3,7 +3,9 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Frame from '../components/Frame.astro';
 import PostItem from '../components/PostItem.astro';
-import { categoryAnchorId, normalizeCategory } from '../utils/category';
+import { categorySlug, normalizeCategory } from '../utils/category';
+
+const visiblePostCount = 5;
 
 const defaultCategories = [
   '개발',
@@ -37,12 +39,27 @@ const categories = [
     );
 
     return (
-      <Frame title={category} id={categoryAnchorId(category)}>
+      <Frame title={category}>
         <p>{categoryPosts.length}개의 게시물</p>
 
         <div class="menu-list">
           {categoryPosts.length > 0 ? (
-            categoryPosts.map((post) => <PostItem post={post} />)
+            <>
+              {categoryPosts.slice(0, visiblePostCount).map((post) => (
+                <PostItem post={post} />
+              ))}
+              {categoryPosts.length > visiblePostCount && (
+                <a
+                  class="menu-item category-more"
+                  href={`/categories/${categorySlug(category)}/`}
+                  aria-label={`전체 글 보기: ${category} 카테고리`}
+                >
+                  <span class="mi-marker" aria-hidden="true">▪ &gt;</span>
+                  <span class="mi-title">...</span>
+                  <span class="mi-arrow" aria-hidden="true">›</span>
+                </a>
+              )}
+            </>
           ) : (
             <p>아직 게시물이 없습니다.</p>
           )}

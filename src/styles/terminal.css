@@ -397,10 +397,6 @@ button {
   margin-top: 0;
 }
 
-.frame[id^='category-'] {
-  scroll-margin-top: 24px;
-}
-
 @media (max-width: 640px) {
   /* Marker and title on one line, category and date below. The arrow is dropped: it
      wrapped onto a line of its own and sat there orphaned. */
