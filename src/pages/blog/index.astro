@@ -8,25 +8,42 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-// Group entries by year.
-const byYear = new Map<number, typeof posts>();
+// Group entries by category. Since posts are already newest-first, category
+// groups also appear in order of their most recent entry.
+const byCategory = new Map<string, typeof posts>();
 for (const post of posts) {
-  const year = post.data.pubDate.getFullYear();
-  if (!byYear.has(year)) byYear.set(year, []);
-  byYear.get(year)!.push(post);
+  const category = post.data.category?.trim() || '미분류';
+  if (!byCategory.has(category)) byCategory.set(category, []);
+  byCategory.get(category)!.push(post);
 }
+
+const visiblePostCount = 5;
 ---
 
-<Layout title="ARCHIVE" description="All blog entries, grouped by year.">
+<Layout title="ARCHIVE" description="Blog entries grouped by category.">
   <Frame title="ARCHIVE">
     <div class="menu-list">
       {
-        [...byYear.entries()].map(([year, yearPosts]) => (
+        [...byCategory.entries()].map(([category, categoryPosts]) => (
           <>
-            <div class="year-sep">[ {year} ] ── {yearPosts.length} ENTRIES</div>
-            {yearPosts.map((post) => (
+            <div class="category-sep">[ {category} ] ── {categoryPosts.length} ENTRIES</div>
+            {categoryPosts.slice(0, visiblePostCount).map((post) => (
               <PostItem post={post} />
             ))}
+            {categoryPosts.length > visiblePostCount && (
+              <details class="category-more">
+                <summary class="menu-item">
+                  <span class="mi-marker" aria-hidden="true">▪ &gt;</span>
+                  <span class="mi-title">... VIEW ALL {categoryPosts.length} ENTRIES</span>
+                  <span class="mi-arrow" aria-hidden="true">›</span>
+                </summary>
+                <div class="category-more-list">
+                  {categoryPosts.slice(visiblePostCount).map((post) => (
+                    <PostItem post={post} />
+                  ))}
+                </div>
+              </details>
+            )}
           </>
         ))
       }

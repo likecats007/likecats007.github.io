@@ -388,6 +388,39 @@ button {
   margin-top: 0;
 }
 
+.category-sep {
+  margin: 24px 0 10px;
+  color: var(--fg-dim);
+}
+
+.category-sep:first-child {
+  margin-top: 0;
+}
+
+.category-more > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.category-more > summary::-webkit-details-marker {
+  display: none;
+}
+
+.category-more > summary::marker {
+  content: '';
+}
+
+.category-more-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.category-more[open] > summary .mi-arrow {
+  transform: rotate(90deg);
+}
+
 @media (max-width: 640px) {
   /* Marker and title on one line, category and date below. The arrow is dropped: it
      wrapped onto a line of its own and sat there orphaned. */
