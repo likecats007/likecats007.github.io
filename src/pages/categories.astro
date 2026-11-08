@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Frame from '../components/Frame.astro';
 import PostItem from '../components/PostItem.astro';
+import { categoryAnchorId, normalizeCategory } from '../utils/category';
 
 const defaultCategories = [
   '개발',
@@ -22,7 +23,7 @@ const posts = (
 const categories = [
   ...new Set([
     ...defaultCategories,
-    ...posts.map((post) => post.data.category),
+    ...posts.map((post) => normalizeCategory(post.data.category)),
   ]),
 ];
 ---
@@ -32,11 +33,11 @@ const categories = [
 
   {categories.map((category) => {
     const categoryPosts = posts.filter(
-      (post) => post.data.category === category
+      (post) => normalizeCategory(post.data.category) === category
     );
 
     return (
-      <Frame title={category}>
+      <Frame title={category} id={categoryAnchorId(category)}>
         <p>{categoryPosts.length}개의 게시물</p>
 
         <div class="menu-list">

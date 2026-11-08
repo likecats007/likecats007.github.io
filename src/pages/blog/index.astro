@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Frame from '../../components/Frame.astro';
 import PostItem from '../../components/PostItem.astro';
+import { categoryAnchorId, normalizeCategory } from '../../utils/category';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -12,7 +13,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 // groups also appear in order of their most recent entry.
 const byCategory = new Map<string, typeof posts>();
 for (const post of posts) {
-  const category = post.data.category?.trim() || '미분류';
+  const category = normalizeCategory(post.data.category);
   if (!byCategory.has(category)) byCategory.set(category, []);
   byCategory.get(category)!.push(post);
 }
@@ -31,18 +32,15 @@ const visiblePostCount = 5;
               <PostItem post={post} />
             ))}
             {categoryPosts.length > visiblePostCount && (
-              <details class="category-more">
-                <summary class="menu-item">
-                  <span class="mi-marker" aria-hidden="true">▪ &gt;</span>
-                  <span class="mi-title">... VIEW ALL {categoryPosts.length} ENTRIES</span>
-                  <span class="mi-arrow" aria-hidden="true">›</span>
-                </summary>
-                <div class="category-more-list">
-                  {categoryPosts.slice(visiblePostCount).map((post) => (
-                    <PostItem post={post} />
-                  ))}
-                </div>
-              </details>
+              <a
+                class="menu-item category-more"
+                href={`/categories/#${categoryAnchorId(category)}`}
+                aria-label={`전체 글 보기: ${category} 카테고리`}
+              >
+                <span class="mi-marker" aria-hidden="true">▪ &gt;</span>
+                <span class="mi-title">...</span>
+                <span class="mi-arrow" aria-hidden="true">›</span>
+              </a>
             )}
           </>
         ))

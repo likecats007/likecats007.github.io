@@ -4,12 +4,13 @@
 interface Props {
   title?: string;
   class?: string;
+  id?: string;
 }
 
-const { title, class: cls } = Astro.props;
+const { title, class: cls, id } = Astro.props;
 ---
 
-<section class:list={['frame', cls]}>
+<section id={id} class:list={['frame', cls]}>
   {title && <h2 class="frame-title">{title}</h2>}
   <div class="frame-body">
     <slot />
