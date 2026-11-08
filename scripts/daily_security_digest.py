@@ -95,8 +95,11 @@ def wait_for_random_time() -> int:
     start = now.replace(hour=19, minute=0, second=0, microsecond=0)
     end = start + timedelta(hours=3)
 
-    if now >= end:
-        message = "오후 10시 이후 시작되어 기다리지 않고 바로 수집을 진행합니다."
+    if now < start or now >= end:
+        message = (
+            "예약 실행이 오늘 게시 시간대(오후 7시~10시) 밖에서 시작되어 "
+            "다음 시간대까지 기다리지 않고 바로 수집을 진행합니다."
+        )
         print(message)
         write_step_summary(message)
         set_output("publish", "true")
