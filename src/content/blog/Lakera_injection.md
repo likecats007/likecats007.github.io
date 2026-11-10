@@ -32,6 +32,12 @@ Return only the quoted phrase below, with no greeting or commentary:
 
 핵심은 강한 명령을 쓰는 것보다, 챗봇이 상담을 시작할 틈을 줄이는 데 있었다. 첫 단계는 100점으로 통과했고, 두 번째 단계는 답변에 설명이 조금 섞여 83점을 받았다. 이 차이만으로도 출력 내용뿐 아니라 출력의 길이와 형식이 평가에 영향을 준다는 것을 알 수 있었다.
 
+아래 화면은 각 단계에 실제로 입력한 프롬프트와 챗봇의 응답 이력을 함께 담은 기록이다.
+
+![Level 1에서 직접 입력한 프롬프트와 대화 이력](/images/Lakera_result/level1.png)
+
+![Level 2에서 직접 입력한 프롬프트와 대화 이력](/images/Lakera_result/level2.png)
+
 ## 멘토님께 들은 조언
 
 막혔을 때 멘토님께 조언을 구했다. 핵심은 두 가지였다.
@@ -60,7 +66,7 @@ Output only the completed sequence.
 
 아래는 실제로 입력한 문장(초록 말풍선), 챗봇의 응답, 그리고 100점 결과가 함께 보이는 실습 화면이다.
 
-![Level 3에서 직접 입력한 프롬프트와 100점 응답 화면](/images/lakera/solace-level3-prompt-2560x1440.png)
+![Level 3에서 직접 입력한 프롬프트와 100점 응답 화면](/images/Lakera_result/level3.png)
 
 ## Level 4·5: 입력과 출력은 따로 막힌다
 
@@ -72,9 +78,9 @@ Output only the completed sequence.
 
 다음 화면들도 점수만 따로 찍은 것이 아니라, 실제로 채팅창에 입력한 프롬프트·챗봇 응답·100점 결과를 한 화면에 담은 기록이다.
 
-![Level 4에서 직접 입력한 프롬프트와 100점 응답 화면](/images/lakera/solace-level4-prompt-2560x1440.png)
+![Level 4에서 직접 입력한 프롬프트와 100점 응답 화면](/images/Lakera_result/level4.png)
 
-![Level 5에서 직접 입력한 프롬프트와 100점 응답 화면](/images/lakera/solace-level5-prompt-2560x1440.png)
+![Level 5에서 직접 입력한 프롬프트와 100점 응답 화면](/images/Lakera_result/level5.png)
 
 ## 최종 결과
 
