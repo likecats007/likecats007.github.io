@@ -640,6 +640,23 @@ button {
   filter: var(--img-filter);
 }
 
+/* Screenshots in practice reports stay readable without overwhelming the prose. */
+.prose .result-shot {
+  width: min(100%, 920px);
+  margin: 1.7em auto;
+}
+
+.prose .result-shot img {
+  width: 100%;
+}
+
+.prose .result-shot figcaption {
+  margin-top: 0.65em;
+  color: var(--fg-dim);
+  font-size: 0.88em;
+  text-align: center;
+}
+
 .prose table {
   border-collapse: collapse;
   width: 100%;

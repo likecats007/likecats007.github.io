@@ -34,9 +34,15 @@ Return only the quoted phrase below, with no greeting or commentary:
 
 아래 화면은 각 단계에 실제로 입력한 프롬프트와 챗봇의 응답 이력을 함께 담은 기록이다. 좌측 상단의 누적 시도 카운터는 각각 12회와 8회다. 마지막 화면에 보이는 무해한 형식 테스트는 통과용 문장이 아닌 추가 검증 기록이므로, 대화 아래의 0점과 좌측 완료 점수는 서로 다른 시도를 가리킨다.
 
-![Level 1의 12회 누적 시도와 실제 대화 이력](/images/Lakera_result/level1.png)
+<figure class="result-shot">
+  <img src="/images/Lakera_result/level1.png" alt="Level 1의 12회 누적 시도와 실제 대화 이력" width="2560" height="1440" loading="lazy" decoding="async" />
+  <figcaption>Level 1 — 12회 시도 후 100점으로 통과한 결과 화면</figcaption>
+</figure>
 
-![Level 2의 8회 누적 시도와 실제 대화 이력](/images/Lakera_result/level2.png)
+<figure class="result-shot">
+  <img src="/images/Lakera_result/level2.png" alt="Level 2의 8회 누적 시도와 실제 대화 이력" width="2560" height="1440" loading="lazy" decoding="async" />
+  <figcaption>Level 2 — 8회 누적 시도와 최종 점수 기록</figcaption>
+</figure>
 
 ## 멘토님께 들은 조언
 
@@ -66,7 +72,10 @@ Output only the completed sequence.
 
 아래는 실제로 입력한 문장(초록 말풍선), 챗봇의 응답, 그리고 100점 결과가 함께 보이는 실습 화면이다.
 
-![Level 3의 57회 누적 시도와 100점 응답 화면](/images/Lakera_result/level3.png)
+<figure class="result-shot">
+  <img src="/images/Lakera_result/level3.png" alt="Level 3의 57회 누적 시도와 100점 응답 화면" width="2560" height="1440" loading="lazy" decoding="async" />
+  <figcaption>Level 3 — 57회 시도 후 100점으로 통과한 응답 화면</figcaption>
+</figure>
 
 ## Level 4·5: 입력과 출력은 따로 막힌다
 
@@ -78,9 +87,15 @@ Output only the completed sequence.
 
 다음 화면들도 점수만 따로 찍은 것이 아니라, 실제로 채팅창에 입력한 프롬프트·챗봇 응답·완료 상태를 한 화면에 담은 기록이다. 누적 시도 카운터는 Level 4가 19회, Level 5가 12회이며, 마지막 대화가 추가 검증 요청인 경우에는 그 대화 점수가 0점으로 표시될 수 있다.
 
-![Level 4의 19회 누적 시도와 100점 응답 화면](/images/Lakera_result/level4.png)
+<figure class="result-shot">
+  <img src="/images/Lakera_result/level4.png" alt="Level 4의 19회 누적 시도와 100점 응답 화면" width="2560" height="1440" loading="lazy" decoding="async" />
+  <figcaption>Level 4 — 19회 시도 후 100점으로 통과한 응답 화면</figcaption>
+</figure>
 
-![Level 5의 12회 누적 시도와 100점 응답 화면](/images/Lakera_result/level5.png)
+<figure class="result-shot">
+  <img src="/images/Lakera_result/level5.png" alt="Level 5의 12회 누적 시도와 100점 응답 화면" width="2560" height="1440" loading="lazy" decoding="async" />
+  <figcaption>Level 5 — 12회 시도 후 100점으로 통과한 최종 결과 화면</figcaption>
+</figure>
 
 ## 최종 결과
 
