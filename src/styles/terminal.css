@@ -644,6 +644,9 @@ button {
 .prose .result-shot {
   width: min(100%, 920px);
   margin: 1.7em auto;
+  /* Body scanlines and vignette use z-index 100–101; evidence stays clean. */
+  position: relative;
+  z-index: 102;
 }
 
 .prose .result-shot img {
