@@ -648,6 +648,8 @@ button {
 
 .prose .result-shot img {
   width: 100%;
+  /* Keep evidence screenshots in their original colors, not CRT-tinted. */
+  filter: none;
 }
 
 .prose .result-shot figcaption {
