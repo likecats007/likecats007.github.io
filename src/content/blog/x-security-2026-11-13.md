@@ -1,9 +1,9 @@
 ---
 title: "X에 올라오는 최신 보안이슈 매일 스크랩하기 8일차"
-description: "자동 수집 오류 상태와 복구 안내를 기록한다."
-pubDate: 2026-11-13T20:11
+description: "X에서 확인한 X 보안 이슈 보안 이슈를 한 줄로 요약한다."
+pubDate: 2026-11-13T20:14
 category: "블로그/기술문서"
-tags: ["보안", "X스크랩", "자동화오류"]
+tags: ["보안", "X 보안 이슈", "X스크랩"]
 draft: false
 ---
 
@@ -11,5 +11,4 @@ draft: false
 
 ## 오늘의 보안 이슈
 
-- 자동 수집이 일시적으로 실패했습니다. 원인: 요약 API가 읽을 수 있는 텍스트를 반환하지 않았습니다..
-- 다음 예약 실행에서 자동으로 다시 시도합니다.
+- [X 보안 이슈](https://x.com/Python_s_/status/2121199775508840669) — AI 요약을 만들지 못해 X 원문을 그대로 기록한다: #NØØT_Security_Alerts 🚨 #ALERT — #PostgreSQL #SecurityAdvisory: Crafted Archive Executes Code in pg_restore 12 Nov 2026 CVE-2026-116314 (CVS
