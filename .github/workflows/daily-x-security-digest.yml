@@ -79,9 +79,9 @@ jobs:
             echo "Today's digest already exists on main; skipping duplicate commit."
             exit 0
           fi
-          git rebase origin/main
           git add -- "$BLOG_FILE"
           git commit -m "Add daily X security digest"
+          git rebase origin/main
           git push origin HEAD:main
           curl --fail-with-body --silent --show-error \
             --request POST \
