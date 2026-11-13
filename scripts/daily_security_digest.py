@@ -25,10 +25,9 @@ BLOG_DIR = ROOT / "src" / "content" / "blog"
 KST = ZoneInfo("Asia/Seoul")
 X_API = "https://api.x.com/2/tweets/search/recent"
 OPENAI_API = "https://api.openai.com/v1/responses"
-MAX_RESULTS_PER_QUERY = 10
-MAX_CANDIDATES = 20
+MAX_RESULTS_PER_QUERY = 50
+MAX_CANDIDATES = 100
 MAX_ITEMS = 1
-MIN_VIEW_COUNT = 100
 
 QUERIES = (
     '(CVE OR vulnerability OR exploit OR "zero day" OR ransomware OR breach OR "security advisory") lang:en -is:retweet -is:reply',
@@ -207,14 +206,6 @@ def source_item_without_summary(candidates: list[dict]) -> list[dict]:
     ]
 
 
-def candidates_with_sufficient_views(candidates: list[dict]) -> list[dict]:
-    return [
-        candidate
-        for candidate in candidates
-        if candidate["views"] is not None and candidate["views"] >= MIN_VIEW_COUNT
-    ]
-
-
 def search_posts(start_time: datetime, end_time: datetime) -> list[dict]:
     token = os.environ["X_API_BEARER_TOKEN"]
     by_id: dict[str, dict] = {}
@@ -257,6 +248,13 @@ def search_posts(start_time: datetime, end_time: datetime) -> list[dict]:
     candidates.sort(key=lambda post: post["created_at"], reverse=True)
     candidates = candidates[:MAX_CANDIDATES]
     rank_candidate_views(candidates)
+    candidates.sort(
+        key=lambda post: (
+            post["views"] if post["views"] is not None else -1,
+            post["created_at"],
+        ),
+        reverse=True,
+    )
     return candidates
 
 
@@ -515,13 +513,14 @@ def publish() -> int:
                 datetime.now(timezone.utc) - timedelta(seconds=30),
             )
             candidates = search_posts(start_time, end_time)
-            candidates = candidates_with_sufficient_views(candidates)
             if candidates:
+                selected_candidate = [candidates[0]]
                 try:
-                    items = summarize_candidates(candidates)
+                    items = summarize_candidates(selected_candidate)
                 except RuntimeError as error:
                     summary_failure_reason = str(error)
-                    items = source_item_without_summary(candidates)
+                if not items:
+                    items = source_item_without_summary(selected_candidate)
         except RuntimeError as error:
             failure_reason = str(error)
         except Exception as error:
