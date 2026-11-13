@@ -86,14 +86,14 @@ def preflight() -> int:
     if missing:
         names = ", ".join(f"`{name}`" for name in missing)
         message = (
-            f"필수 API 키가 없어 자동 발행을 시작할 수 없습니다. 저장소의 "
+            f"필수 API 키가 없어 X 수집은 건너뜁니다. 대신 자동화 상태 안내 글을 발행합니다. 저장소의 "
             f"**Settings → Secrets and variables → "
             f"Actions**에 다음 secret을 추가하세요: {names}."
         )
-        print(message)
+        print(f"::warning::{message}")
         write_step_summary(message)
         set_output("ready", "false")
-        return 1
+        return 0
 
     set_output("ready", "true")
     print("필수 API secrets가 설정되어 있습니다.")
@@ -120,24 +120,22 @@ def request_json(
         headers["Content-Type"] = "application/json"
 
     request = Request(url, data=body, headers=headers, method=method)
+    api_name = "X API" if url.startswith(X_API) else "OpenAI API"
     for attempt in range(3):
         try:
             with urlopen(request, timeout=45) as response:
                 return json.loads(response.read().decode("utf-8"))
         except HTTPError as error:
-            response_body = error.read().decode("utf-8", errors="replace")
             if error.code == 429 or error.code >= 500:
                 if attempt < 2:
                     time.sleep(2 ** (attempt + 1))
                     continue
-            raise RuntimeError(
-                f"API 요청 실패 ({error.code}): {response_body[:1200]}"
-            ) from error
+            raise RuntimeError(f"{api_name} 요청 실패 (HTTP {error.code})") from error
         except URLError as error:
             if attempt < 2:
                 time.sleep(2 ** (attempt + 1))
                 continue
-            raise RuntimeError(f"API 연결 실패: {error.reason}") from error
+            raise RuntimeError(f"{api_name} 연결 실패") from error
 
     raise RuntimeError("API 요청을 완료하지 못했습니다.")
 
@@ -358,7 +356,10 @@ def existing_digest_for_date(date: str) -> Path | None:
 
 
 def write_blog_post(
-    items: list[dict], candidates: list[dict], day_number: int
+    items: list[dict],
+    candidates: list[dict],
+    day_number: int,
+    failure_reason: str | None = None,
 ) -> Path:
     now = datetime.now(KST)
     date = now.strftime("%Y-%m-%d")
@@ -369,7 +370,10 @@ def write_blog_post(
     )
 
     title = f"X에 올라오는 최신 보안이슈 매일 스크랩하기 {day_number}일차"
-    if items:
+    if failure_reason:
+        description = "자동 수집 오류 상태와 복구 안내를 기록한다."
+        tags = ["보안", "X스크랩", "자동화오류"]
+    elif items:
         topic_tag = items[0]["topic_tag"]
         description = (
             "X에서 확인한 최신 보안 이슈를 한 줄로 요약한다."
@@ -401,7 +405,12 @@ def write_blog_post(
         lines.append(
             f"- [{topic_tag}]({post['post_url']}) — {item['summary']}"
         )
-    if not items:
+    if failure_reason:
+        lines.append(
+            f"- 자동 수집이 일시적으로 실패했습니다. 원인: {failure_reason}."
+        )
+        lines.append("- 다음 예약 실행에서 자동으로 다시 시도합니다.")
+    elif not items:
         lines.append("- 최근 24시간 검색 결과에서 요약할 수 있는 구체적인 보안 이슈를 찾지 못했다.")
     lines.append("")
     output_path.write_text("\n".join(lines), encoding="utf-8")
@@ -410,9 +419,6 @@ def write_blog_post(
 
 
 def publish() -> int:
-    if not os.environ.get("X_API_BEARER_TOKEN") or not os.environ.get("OPENAI_API_KEY"):
-        return preflight()
-
     now = datetime.now(KST)
     date = now.strftime("%Y-%m-%d")
     existing_path = existing_digest_for_date(date)
@@ -425,13 +431,38 @@ def publish() -> int:
         write_step_summary(message)
         return 0
 
-    # X recent search rejects end_time values less than 10 seconds in the past.
-    end_time = datetime.now(timezone.utc) - timedelta(seconds=30)
-    start_time = end_time - timedelta(hours=24)
-    candidates = search_posts(start_time, end_time)
-    items = summarize_candidates(candidates) if candidates else []
-    output_path = write_blog_post(items, candidates, next_day_number())
-    if items:
+    missing = [
+        name
+        for name in ("X_API_BEARER_TOKEN", "OPENAI_API_KEY")
+        if not os.environ.get(name)
+    ]
+    failure_reason: str | None = None
+    candidates: list[dict] = []
+    items: list[dict] = []
+    if missing:
+        failure_reason = f"필수 API secret 누락 ({', '.join(missing)})"
+    else:
+        try:
+            # X recent search rejects end_time values less than 10 seconds in the past.
+            end_time = datetime.now(timezone.utc) - timedelta(seconds=30)
+            start_time = end_time - timedelta(hours=24)
+            candidates = search_posts(start_time, end_time)
+            items = summarize_candidates(candidates) if candidates else []
+        except RuntimeError as error:
+            failure_reason = str(error)
+        except Exception as error:
+            # Keep a programming error visible without leaking raw API responses or secrets.
+            failure_reason = f"수집 프로그램 오류 ({type(error).__name__})"
+
+    output_path = write_blog_post(
+        items, candidates, next_day_number(), failure_reason=failure_reason
+    )
+    if failure_reason:
+        message = (
+            f"::warning::자동 수집은 실패했지만 안내 글을 발행했습니다: "
+            f"`{output_path.relative_to(ROOT)}`\n- 원인: {failure_reason}"
+        )
+    elif items:
         selected_post = next(
             post for post in candidates if post["id"] == items[0]["post_id"]
         )

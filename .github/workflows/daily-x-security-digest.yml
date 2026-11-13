@@ -36,7 +36,6 @@ jobs:
 
       - id: publish
         name: Find up to 20 recent X security posts and summarize one
-        if: steps.preflight.outputs.ready == 'true'
         env:
           X_API_BEARER_TOKEN: ${{ secrets.X_API_BEARER_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
