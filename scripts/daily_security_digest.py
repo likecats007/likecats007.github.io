@@ -180,6 +180,25 @@ def rank_candidate_views(candidates: list[dict]) -> None:
         )
 
 
+def source_item_without_summary(candidates: list[dict]) -> list[dict]:
+    """Publish an X source post even when the optional AI summary is unavailable."""
+    if not candidates:
+        return []
+    post = candidates[0]
+    text = " ".join(post["text"].split())[:140]
+    summary = "AI 요약을 만들지 못해 X 원문을 그대로 기록한다"
+    if text:
+        summary += f": {text}"
+    return [
+        {
+            "post_id": post["id"],
+            "topic_tag": "X 보안 이슈",
+            "summary": summary,
+            "security_relevance_score": 3,
+        }
+    ]
+
+
 def search_posts(start_time: datetime, end_time: datetime) -> list[dict]:
     token = os.environ["X_API_BEARER_TOKEN"]
     by_id: dict[str, dict] = {}
@@ -464,6 +483,7 @@ def publish() -> int:
         if not os.environ.get(name)
     ]
     failure_reason: str | None = None
+    summary_failure_reason: str | None = None
     candidates: list[dict] = []
     items: list[dict] = []
     if missing:
@@ -479,7 +499,12 @@ def publish() -> int:
                 datetime.now(timezone.utc) - timedelta(seconds=30),
             )
             candidates = search_posts(start_time, end_time)
-            items = summarize_candidates(candidates) if candidates else []
+            if candidates:
+                try:
+                    items = summarize_candidates(candidates)
+                except RuntimeError as error:
+                    summary_failure_reason = str(error)
+                    items = source_item_without_summary(candidates)
         except RuntimeError as error:
             failure_reason = str(error)
         except Exception as error:
@@ -520,6 +545,8 @@ def publish() -> int:
             f"\n- 정보보안 관련성: {items[0]['security_relevance_score']}/5"
             f"\n- {view_note}"
         )
+        if summary_failure_reason:
+            message += f"\n- AI 요약 실패로 X 원문을 사용함: {summary_failure_reason}"
     else:
         message = f"적합한 글은 없었지만 검색 결과 안내 글을 발행했습니다: `{output_path.relative_to(ROOT)}`"
     print(message)
