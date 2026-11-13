@@ -184,7 +184,14 @@ def source_item_without_summary(candidates: list[dict]) -> list[dict]:
     """Publish an X source post even when the optional AI summary is unavailable."""
     if not candidates:
         return []
-    post = candidates[0]
+    posts_with_views = [post for post in candidates if post["views"] is not None]
+    post = max(
+        posts_with_views or candidates,
+        key=lambda candidate: (
+            candidate["views"] if candidate["views"] is not None else -1,
+            candidate["created_at"],
+        ),
+    )
     text = " ".join(post["text"].split())[:140]
     summary = "AI 요약을 만들지 못해 X 원문을 그대로 기록한다"
     if text:
