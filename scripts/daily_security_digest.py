@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Collect recent public X security posts and publish a short daily blog note."""
+"""Collect recent public X security posts and publish a short daily blog note.
+
+Set DIGEST_DATE and REPLACE_EXISTING for a one-off historical backfill.
+"""
 
 from __future__ import annotations
 
