@@ -28,6 +28,7 @@ OPENAI_API = "https://api.openai.com/v1/responses"
 MAX_RESULTS_PER_QUERY = 10
 MAX_CANDIDATES = 20
 MAX_ITEMS = 1
+MIN_VIEW_COUNT = 100
 
 QUERIES = (
     '(CVE OR vulnerability OR exploit OR "zero day" OR ransomware OR breach OR "security advisory") lang:en -is:retweet -is:reply',
@@ -203,6 +204,14 @@ def source_item_without_summary(candidates: list[dict]) -> list[dict]:
             "summary": summary,
             "security_relevance_score": 3,
         }
+    ]
+
+
+def candidates_with_sufficient_views(candidates: list[dict]) -> list[dict]:
+    return [
+        candidate
+        for candidate in candidates
+        if candidate["views"] is not None and candidate["views"] >= MIN_VIEW_COUNT
     ]
 
 
@@ -506,6 +515,7 @@ def publish() -> int:
                 datetime.now(timezone.utc) - timedelta(seconds=30),
             )
             candidates = search_posts(start_time, end_time)
+            candidates = candidates_with_sufficient_views(candidates)
             if candidates:
                 try:
                     items = summarize_candidates(candidates)
