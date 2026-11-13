@@ -339,6 +339,29 @@ def next_day_number() -> int:
     return max(existing_day_numbers, default=0) + 1
 
 
+def digest_datetime() -> datetime:
+    requested_date = os.environ.get("DIGEST_DATE", "").strip()
+    now = datetime.now(KST)
+    if not requested_date:
+        return now
+    try:
+        target_date = datetime.strptime(requested_date, "%Y-%m-%d").date()
+    except ValueError as error:
+        raise RuntimeError("DIGEST_DATE는 YYYY-MM-DD 형식이어야 합니다") from error
+    if target_date > now.date():
+        raise RuntimeError("미래 날짜의 브리핑은 발행할 수 없습니다")
+    return datetime.combine(target_date, now.time(), tzinfo=KST)
+
+
+def day_number_from_post(path: Path) -> int | None:
+    match = re.search(
+        r"^title:\s*['\"]?X에 올라오는 최신 보안이슈 매일 스크랩하기\s+(\d+)일차",
+        path.read_text(encoding="utf-8"),
+        re.MULTILINE,
+    )
+    return int(match.group(1)) if match else None
+
+
 def existing_digest_for_date(date: str) -> Path | None:
     date_pattern = re.compile(
         rf"^pubDate:\s*['\"]?{re.escape(date)}(?:T\d{{2}}:\d{{2}})?['\"]?\s*$",
@@ -359,10 +382,10 @@ def write_blog_post(
     items: list[dict],
     candidates: list[dict],
     day_number: int,
+    published_at: datetime,
     failure_reason: str | None = None,
 ) -> Path:
-    now = datetime.now(KST)
-    date = now.strftime("%Y-%m-%d")
+    date = published_at.strftime("%Y-%m-%d")
     output_path = BLOG_DIR / f"x-security-{date}.md"
     posts_by_id = {post["id"]: post for post in candidates}
     items.sort(
@@ -388,7 +411,7 @@ def write_blog_post(
         "---",
         f"title: {yaml_scalar(title)}",
         f"description: {yaml_scalar(description)}",
-        f"pubDate: {now.strftime('%Y-%m-%dT%H:%M')}",
+        f"pubDate: {published_at.strftime('%Y-%m-%dT%H:%M')}",
         f"category: {yaml_scalar('블로그/기술문서')}",
         f"tags: [{', '.join(yaml_scalar(tag) for tag in tags)}]",
         "draft: false",
@@ -419,12 +442,13 @@ def write_blog_post(
 
 
 def publish() -> int:
-    now = datetime.now(KST)
+    now = digest_datetime()
     date = now.strftime("%Y-%m-%d")
     existing_path = existing_digest_for_date(date)
-    if existing_path:
+    replace_existing = os.environ.get("REPLACE_EXISTING", "").lower() == "true"
+    if existing_path and not replace_existing:
         message = (
-            f"오늘 브리핑 글이 이미 있어 중복 발행하지 않습니다: "
+            f"{date} 브리핑 글이 이미 있어 중복 발행하지 않습니다: "
             f"`{existing_path.name}`"
         )
         print(message)
@@ -444,8 +468,13 @@ def publish() -> int:
     else:
         try:
             # X recent search rejects end_time values less than 10 seconds in the past.
-            end_time = datetime.now(timezone.utc) - timedelta(seconds=30)
-            start_time = end_time - timedelta(hours=24)
+            start_time = datetime.combine(
+                now.date(), datetime.min.time(), tzinfo=KST
+            ).astimezone(timezone.utc)
+            end_time = min(
+                start_time + timedelta(days=1),
+                datetime.now(timezone.utc) - timedelta(seconds=30),
+            )
             candidates = search_posts(start_time, end_time)
             items = summarize_candidates(candidates) if candidates else []
         except RuntimeError as error:
@@ -454,8 +483,17 @@ def publish() -> int:
             # Keep a programming error visible without leaking raw API responses or secrets.
             failure_reason = f"수집 프로그램 오류 ({type(error).__name__})"
 
+    day_number = (
+        day_number_from_post(existing_path)
+        if replace_existing and existing_path
+        else None
+    ) or next_day_number()
     output_path = write_blog_post(
-        items, candidates, next_day_number(), failure_reason=failure_reason
+        items,
+        candidates,
+        day_number,
+        now,
+        failure_reason=failure_reason,
     )
     if failure_reason:
         message = (

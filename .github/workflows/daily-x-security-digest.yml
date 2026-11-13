@@ -5,6 +5,11 @@ on:
     - cron: "17 22 * * *"
       timezone: "Asia/Seoul"
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/daily-x-security-digest.yml"
+      - "scripts/daily_security_digest.py"
 
 permissions:
   contents: write
@@ -16,6 +21,7 @@ concurrency:
 
 jobs:
   publish:
+    if: github.event_name != 'push' || startsWith(github.event.head_commit.message, '[backfill-x-digest ')
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
@@ -26,6 +32,23 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Configure an X-digest backfill
+        if: github.event_name == 'push'
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import re
+
+          with open(os.environ["GITHUB_EVENT_PATH"], encoding="utf-8") as event_file:
+              message = json.load(event_file)["head_commit"]["message"].strip()
+          match = re.fullmatch(r"\[backfill-x-digest (\d{4}-\d{2}-\d{2})\]", message)
+          if not match:
+              raise SystemExit("A backfill push must include its date in the commit message.")
+          with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as env_file:
+              env_file.write(f"DIGEST_DATE={match.group(1)}\nREPLACE_EXISTING=true\n")
+          PY
 
       - id: preflight
         name: Check API credentials
@@ -47,11 +70,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BLOG_FILE: ${{ steps.publish.outputs.file }}
+          REPLACE_EXISTING: ${{ env.REPLACE_EXISTING }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git fetch origin main
-          if git cat-file -e "origin/main:$BLOG_FILE" 2>/dev/null; then
+          if git cat-file -e "origin/main:$BLOG_FILE" 2>/dev/null && [ "$REPLACE_EXISTING" != "true" ]; then
             echo "Today's digest already exists on main; skipping duplicate commit."
             exit 0
           fi
