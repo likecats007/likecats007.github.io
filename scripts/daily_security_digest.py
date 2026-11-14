@@ -308,13 +308,24 @@ def summarize_candidates(candidates: list[dict]) -> list[dict]:
         "reasoning": {"effort": "low"},
         "max_output_tokens": 1200,
     }
-    response = request_json(
-        OPENAI_API,
-        os.environ["OPENAI_API_KEY"],
-        request_payload,
-        method="POST",
-    )
-    parsed = json.loads(response_text(response))
+    # A completed response can occasionally contain only reasoning content.
+    # Retry that recoverable case once; never replace a missing summary with X text.
+    parsed: dict | None = None
+    for attempt in range(2):
+        response = request_json(
+            OPENAI_API,
+            os.environ["OPENAI_API_KEY"],
+            request_payload,
+            method="POST",
+        )
+        try:
+            parsed = json.loads(response_text(response))
+            break
+        except (RuntimeError, json.JSONDecodeError) as error:
+            if attempt:
+                raise RuntimeError("AI 요약 응답을 읽지 못했습니다") from error
+    if parsed is None:
+        raise RuntimeError("AI 요약 응답을 읽지 못했습니다")
     valid_ids = {post["id"] for post in candidates}
     items = []
     seen_ids = set()
