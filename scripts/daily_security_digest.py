@@ -30,7 +30,7 @@ MAX_CANDIDATES = 100
 MAX_ITEMS = 1
 
 QUERIES = (
-    '(CVE OR vulnerability OR exploit OR "zero day" OR ransomware OR breach OR "security advisory") lang:en -is:retweet -is:reply',
+    '(CVE OR vulnerability OR exploit OR "zero day" OR ransomware OR "data breach" OR "security advisory" OR "security update") lang:en -is:retweet -is:reply',
     '(취약점 OR 보안사고 OR 랜섬웨어 OR 정보유출 OR 보안패치 OR 제로데이) lang:ko -is:retweet -is:reply',
 )
 
@@ -180,32 +180,6 @@ def rank_candidate_views(candidates: list[dict]) -> None:
         )
 
 
-def source_item_without_summary(candidates: list[dict]) -> list[dict]:
-    """Publish an X source post even when the optional AI summary is unavailable."""
-    if not candidates:
-        return []
-    posts_with_views = [post for post in candidates if post["views"] is not None]
-    post = max(
-        posts_with_views or candidates,
-        key=lambda candidate: (
-            candidate["views"] if candidate["views"] is not None else -1,
-            candidate["created_at"],
-        ),
-    )
-    text = " ".join(post["text"].split())[:140]
-    summary = "AI 요약을 만들지 못해 X 원문을 그대로 기록한다"
-    if text:
-        summary += f": {text}"
-    return [
-        {
-            "post_id": post["id"],
-            "topic_tag": "X 보안 이슈",
-            "summary": summary,
-            "security_relevance_score": 3,
-        }
-    ]
-
-
 def search_posts(start_time: datetime, end_time: datetime) -> list[dict]:
     token = os.environ["X_API_BEARER_TOKEN"]
     by_id: dict[str, dict] = {}
@@ -259,13 +233,28 @@ def search_posts(start_time: datetime, end_time: datetime) -> list[dict]:
 
 
 def response_text(response: dict) -> str:
+    direct_text = response.get("output_text")
+    if isinstance(direct_text, str) and direct_text.strip():
+        return direct_text
+
+    content_types: list[str] = []
     for item in response.get("output", []):
         if item.get("type") != "message":
             continue
         for content in item.get("content", []):
-            if content.get("type") == "output_text":
-                return content.get("text", "")
-    raise RuntimeError("요약 API가 읽을 수 있는 텍스트를 반환하지 않았습니다.")
+            content_type = content.get("type", "unknown")
+            content_types.append(content_type)
+            text = content.get("text")
+            if content_type in {"output_text", "text", "output_json"}:
+                if isinstance(text, str) and text.strip():
+                    return text
+                if isinstance(content.get("json"), dict):
+                    return json.dumps(content["json"], ensure_ascii=False)
+    status = response.get("status", "unknown")
+    types = ", ".join(content_types) or "없음"
+    raise RuntimeError(
+        f"요약 API가 텍스트를 반환하지 않았습니다 (status: {status}, content: {types})"
+    )
 
 
 def summarize_candidates(candidates: list[dict]) -> list[dict]:
@@ -316,7 +305,8 @@ def summarize_candidates(candidates: list[dict]) -> list[dict]:
                 "schema": OUTPUT_SCHEMA,
             }
         },
-        "max_output_tokens": 600,
+        "reasoning": {"effort": "low"},
+        "max_output_tokens": 1200,
     }
     response = request_json(
         OPENAI_API,
@@ -497,7 +487,6 @@ def publish() -> int:
         if not os.environ.get(name)
     ]
     failure_reason: str | None = None
-    summary_failure_reason: str | None = None
     candidates: list[dict] = []
     items: list[dict] = []
     if missing:
@@ -514,13 +503,8 @@ def publish() -> int:
             )
             candidates = search_posts(start_time, end_time)
             if candidates:
-                selected_candidate = [candidates[0]]
-                try:
-                    items = summarize_candidates(selected_candidate)
-                except RuntimeError as error:
-                    summary_failure_reason = str(error)
-                if not items:
-                    items = source_item_without_summary(selected_candidate)
+                # Keep the prompt bounded, while letting the model reject non-security posts.
+                items = summarize_candidates(candidates[:20])
         except RuntimeError as error:
             failure_reason = str(error)
         except Exception as error:
@@ -561,8 +545,6 @@ def publish() -> int:
             f"\n- 정보보안 관련성: {items[0]['security_relevance_score']}/5"
             f"\n- {view_note}"
         )
-        if summary_failure_reason:
-            message += f"\n- AI 요약 실패로 X 원문을 사용함: {summary_failure_reason}"
     else:
         message = f"적합한 글은 없었지만 검색 결과 안내 글을 발행했습니다: `{output_path.relative_to(ROOT)}`"
     print(message)
