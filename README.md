@@ -10,15 +10,6 @@ Astro와 GitHub Pages로 운영하는 개인 기술 블로그입니다. 보안, 
 - Markdown
 - GitHub Pages
 
-## 로컬 실행
-
-```bash
-npm install
-npm run dev
-```
-
-로컬 주소는 `http://localhost:4321`입니다. 배포 전에는 `npm run build`로 확인할 수 있습니다.
-
 ## 글 작성
 
 `src/content/blog/`에 Markdown 파일을 추가합니다.
