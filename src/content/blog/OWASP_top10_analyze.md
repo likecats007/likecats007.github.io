@@ -1,84 +1,69 @@
 ---
-title: OWASP Top 10 보안 동향 분석[임시]
-description: .
+title: 'OWASP Top 10:2025 A10 - 부적절한 예외 처리'
+description: '예외 상황을 잘못 다루면 정보 노출, 서비스 거부, 거래 상태 오류로 이어지는 과정을 OWASP A10:2025를 바탕으로 정리합니다.'
 pubDate: 2026-11-23T13:06
 category: 블로그/기술문서
+tags: ['OWASP Top 10', 'A10', '예외 처리', '애플리케이션 보안']
 draft: false
 ---
-OWASP Top 10은 비영리 보안 재단인 OWASP이 공격 데이터와 전문가 설문을 통해 선정한 가장 치명적인 10대 보안 위협을 설정하고 발표한 것으로 이를 통해  보안 우선순위를 선정하고, 개발자와 보안 담당자, 경영진 간의 원활한 커뮤니케이션을 돕는 등 보안 수준을 높이기 위한 가이드라인이다.
 
-이 미션의 목표는 OWASP Top 10 보안 동향을 조사하여, 자신만의 언어로 블로그에 정리하는 것이다. 
+OWASP Top 10:2025는 웹 애플리케이션에서 주의해야 할 주요 보안 위험을 정리한 자료다. 이 글에서는 목록의 A10인 **부적절한 예외 처리(Mishandling of Exceptional Conditions)**를 살펴본다. ([OWASP Top 10:2025 A10](https://top10.owasp.org/2025/ko/A10_2025-Mishandling_of_Exceptional_Conditions/))
 
-1. [A01:2025 - Broken Access Control](https://top10.owasp.org/2025/A01_2025-Broken_Access_Control/)
-2. [A02:2025 - Security Misconfiguration](https://top10.owasp.org/2025/A02_2025-Security_Misconfiguration/)
-3. [A03:2025 - Software Supply Chain Failures](https://top10.owasp.org/2025/A03_2025-Software_Supply_Chain_Failures/)
-4. [A04:2025 - Cryptographic Failures](https://top10.owasp.org/2025/A04_2025-Cryptographic_Failures/)
-5. [A05:2025 - Injection](https://top10.owasp.org/2025/A05_2025-Injection/)
-6. [A06:2025 - Insecure Design](https://top10.owasp.org/2025/A06_2025-Insecure_Design/)
-7. [A07:2025 - Authentication Failures](https://top10.owasp.org/2025/A07_2025-Authentication_Failures/)
-8. [A08:2025 - Software or Data Integrity Failures](https://top10.owasp.org/2025/A08_2025-Software_or_Data_Integrity_Failures/)
-9. [A09:2025 - Security Logging and Alerting Failures](https://top10.owasp.org/2025/A09_2025-Security_Logging_and_Alerting_Failures/)
-10. [A10:2025 - Mishandling of Exceptional Conditions](https://top10.owasp.org/2025/A10_2025-Mishandling_of_Exceptional_Conditions/)
+## 주제를 고른 이유
 
-것이 OWASP Top 10:2025 목록이다.
+최근 수업에서 예외 처리를 배우면서, 예외를 잘못 처리하면 어떤 보안 문제가 생기는지 궁금해졌다. 특히 프로그램이 예상하지 못한 상황에 놓였을 때 오류를 알아채고 안전한 상태로 돌아가는 과정이 궁금해 이 주제를 선택했다.
 
+## A10:2025 부적절한 예외 처리
 
+A10은 OWASP Top 10:2025에서 새로 추가된 범주로, 24개의 CWE를 포함한다. 오류 처리 문제뿐 아니라 논리 오류, 안전하지 않은 실패(failing open) 등 비정상적인 상황을 다루는 과정에서 발생하는 문제를 함께 다룬다. 대표 사례로는 민감한 정보가 포함된 오류 메시지(CWE-209), 처리하지 않은 예외(CWE-248), 예외 발생 뒤 정리 작업 누락(CWE-460), 안전하게 실패하지 않는 문제(CWE-636)가 있다. 이전에 코드 품질 저하라는 넓은 범주에 포함됐던 일부 문제를 더 구체적으로 살펴보도록 분류한 것이다. ([OWASP Top 10:2025 A10](https://top10.owasp.org/2025/ko/A10_2025-Mishandling_of_Exceptional_Conditions/))
 
-## === 주제 선정 ====
+### 무엇이 부적절한 예외 처리인가
 
-최근 수업에서 예외 처리에 대하여 배우고 있었기 때문에 "Mishandling of Exceptional Conditions"(예외적 상황의 부적절한 처리)에 예외 처리를 부적절하게 한 것이 보안 상의 어떤 위험이 있는 것인지 궁금해져 이 주제를 선정하게 되었다.
+예외 상황은 프로그램이 일반적인 흐름대로 동작할 수 없는 예상 밖의 상태를 말한다. 입력값이 빠지거나 잘못된 경우, 메모리나 권한이 부족한 경우, 네트워크 연결이 끊긴 경우 등이 원인이 될 수 있다. 프로그램이 이런 상황을 미리 막지 못하거나, 발생 사실을 알아채지 못하거나, 발생한 뒤 적절히 대응하지 못하면 부적절한 예외 처리가 된다.
 
-<br>
+예외 처리 문제는 프로그램의 충돌에서 끝나지 않을 수 있다. 오류 메시지로 내부 정보가 노출되거나, 권한 확인이 실패했는데도 작업을 허용하거나, 작업 도중 데이터가 일부만 변경될 수 있다. 그 결과 기밀성·가용성·무결성이 영향을 받을 수 있다. ([OWASP Top 10:2025 A10](https://top10.owasp.org/2025/ko/A10_2025-Mishandling_of_Exceptional_Conditions/))
 
-## ==== 내용 공부 ====
+### 공격 시나리오
 
-###  "Mishandling of Exceptional Conditions"
+OWASP는 예외 처리 실패가 보안 문제로 이어지는 예시를 세 가지 제시한다.
 
-는 프로그램이 일반적이지 않고 크래시나 예상치 못한 동작, 취약점들을 가져오는 예측 불가능한 상황에서 예방, 감지, 반응하는데 실패하여 발생하게 된다.
+1. **파일 업로드 중 자원 고갈:** 업로드 처리 중 오류가 발생해도 파일이나 연결 같은 자원을 해제하지 않으면, 실패가 반복될 때 사용 가능한 자원이 고갈되어 서비스 거부로 이어질 수 있다.
+2. **오류 메시지를 통한 정보 노출:** 데이터베이스 오류나 상세한 예외 내용이 사용자에게 그대로 보이면, 공격자가 시스템 정보를 파악해 후속 공격을 준비하는 데 이용할 수 있다.
+3. **금융 거래의 불완전한 처리:** 출금·입금처럼 여러 단계로 이루어진 작업에서 중간 오류가 났는데 전체 작업을 취소하지 않으면 데이터 상태가 어긋날 수 있다. 재시도나 동시 요청 처리까지 잘못되면 중복 거래 같은 문제로 이어질 수 있다.
 
-<br>
+이 사례들은 예외 처리가 가용성뿐 아니라 정보 보호와 데이터 상태에도 영향을 줄 수 있음을 보여준다. ([OWASP Top 10:2025 A10](https://top10.owasp.org/2025/ko/A10_2025-Mishandling_of_Exceptional_Conditions/))
 
-예외적 상황을 잘못 처리하면 논리 버그, 오버플로우, 레이스 컨디션, 부정 거래, 메모리·상태·리소스·타이밍·인증·인가 관련 문제 등 여러 보안 취약점이 발생할 수 있다. 이러한 취약점들은 시스템 또는 데이터의 기밀성, 가용성, 무결성에 부정적인 영향을 미칠 수 있다. 
+### 대응과 점검 방법
 
-<br>
+예외가 발생하지 않도록 입력을 검증하고, 요청 횟수나 사용 가능한 자원에 한도를 두는 것이 기본이다. 오류가 발생하면 해당 작업에 필요한 자원을 정리하고, 거래처럼 여러 단계로 이루어진 작업은 중간 단계만 반영되지 않도록 전체를 취소해 일관된 상태를 유지해야 한다. 이를 안전한 실패(failing closed)라고 한다.
 
-예외 상황을 적절히 처리하려면 최악의 상황을 대비한 계획을 세워 모든 시스템 오류를 발생 지점에서 직접 캐치하고, 이를 정상 상태로 복구해야 한다. 여기에 더해 직접 캐치하지 못한 예외 상황을 대비해 전역 예외 처리기를 구현해야 한다. 이 과정에서 오류 발생시 사용자가 이해하기 쉬운 방식으로 알리고, 이벤트 로깅, 필요시 알림 전송하는 것이 포함되어야 한다.  추가로 반복되는 오류나 진행 중인 공격을 나타내는 패턴을 감시하고, 이에 대응, 방어, 차단할 수 있는 모니터링 또는 옵저버빌리티 도구를 갖추는 것이 좋다.
+사용자에게는 이해하기 쉬운 일반 오류를 보여주고, 스택 트레이스나 내부 경로 등 구현 정보는 응답에 포함하지 않는 편이 안전하다. 조사에 필요한 상세 정보는 서버 로그에 남기되, 비밀번호·토큰 같은 비밀 정보가 기록되지 않도록 해야 한다. 예상하지 못한 예외를 위한 전역 처리기를 두고, 반복되는 오류나 공격 징후를 모니터링해 필요하면 알림이나 제한을 적용할 수 있다. ([OWASP Error Handling Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html), [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html))
 
-<br>
+설계 단계에서는 실패할 수 있는 조건과 복구 방법을 정하고, 코드 리뷰와 정적 분석으로 오류 처리 누락을 살펴봐야 한다. 테스트에서는 잘못되거나 누락된 입력, 네트워크·데이터베이스 오류, 권한 부족 상황을 만들고 자원 정리와 데이터 롤백이 제대로 되는지 확인할 수 있다. OWASP도 위협 모델링, 코드 리뷰, 스트레스·성능·침투 테스트를 대응 방안으로 제시한다. ([OWASP Top 10:2025 A10](https://top10.owasp.org/2025/ko/A10_2025-Mishandling_of_Exceptional_Conditions/))
 
-### Score table.
+## OWASP 지표 읽기
 
+| 지표 | A10 값 | 의미 |
+| --- | ---: | --- |
+| 매핑된 CWE 수 | 24 | A10에 연결된 취약점 유형 수 |
+| 최대 발생률 | 20.67% | 매핑된 CWE 중 조사 데이터에서 관측된 최대 발생률 |
+| 평균 발생률 | 2.95% | 매핑된 CWE의 평균 발생률 |
+| 최대 테스트 커버리지 | 100.00% | 개별 CWE에 대한 최대 테스트 커버리지 |
+| 평균 테스트 커버리지 | 37.95% | 매핑된 CWE의 평균 테스트 커버리지 |
+| 가중 평균 악용도 | 7.11 | 관련 CVE의 CVSS 악용도 점수를 정규화한 평균 |
+| 가중 평균 영향도 | 3.81 | 관련 CVE의 CVSS 영향도 점수를 정규화한 평균 |
+| 총 발생 건수 | 769,581 | 매핑된 CWE가 확인된 애플리케이션 발생 건수 |
+| 총 CVE 수 | 3,416 | 매핑된 CWE와 연결된 CVE 수 |
 
-|  |  |  |  |  |  |  |  |  |
-| ----------- | ------------------ | ------------------ | ------------ | ------------ | -------------------- | ------------------- | ----------------- | ---------- |
-| CWEs Mapped | Max Incidence Rate | Avg Incidence Rate | Max Coverage | Avg Coverage | Avg Weighted Exploit | Avg Weighted Impact | Total Occurrences | Total CVEs |
-| 24 | 20.67% | 2.95% | 100.00% | 37.95% | 7.11 | 3.81 | 769,581 | 3,416 |
+발생률과 테스트 커버리지는 OWASP에 자료를 제공한 기관들이 테스트한 애플리케이션을 바탕으로 집계된다. 따라서 최대 발생률 20.67%는 모든 웹 서비스에서 이 취약점이 발생할 확률을 뜻하지 않는다. 특정 조사 데이터에서 A10에 매핑된 CWE 중 가장 높게 관측된 발생률로 해석해야 한다. 가중 악용도와 영향도는 매핑된 CVE의 CVSS 점수를 바탕으로 한 값이다. 이 지표는 범주의 배경을 이해하는 데 참고할 수 있지만, 개별 서비스의 위험도는 해당 서비스의 코드와 운영 환경을 따로 점검해야 한다. ([OWASP Top 10:2025 데이터 지표 설명](https://top10.owasp.org/2025/0x02_2025-What_are_Application_Security_Risks/))
 
+## 정리
 
-CWEs Mapped : 해당 보안 취약점 범주에 매핑된 CWE의 총개수
+A10을 읽으며 예외 처리는 오류 메시지를 출력하는 일에 그치지 않는다는 점을 알 수 있었다. 오류가 생긴 뒤 자원을 정리하고, 데이터 상태를 복구하고, 사용자 응답과 내부 로그를 구분하는 과정까지 포함한다. 예외 상황을 예상하고 안전하게 실패하도록 설계하는 것이 서비스와 데이터의 보안을 지키는 데 중요하다.
 
-Max Incidence Rate :  개별 취약점이 특정 데이터 셋에서 기록한 최대 발생률
+## 참고 자료
 
-Avg Incidence Rate : 취약점들의 평균 발생률
-
-Max Coverage : 최대 데이터 커버리지. 분석 대상 데이터에서 관련 취약점이 확인된 최대 범위
-
-Avg Coverage : 평균 데이터 커버리지
-
-Avg Weighted Exploit : 공격 가능성을 가중 평가한 평균 점수
-
-Avg Weighted Impact : 취약점이 시스템에 미치는 영향을 가중 평가한 평균 점수
-
-Total Occurrences : 관련 취약점의 전체 발생 횟수
-
-Total CVEs : 관련 취약점이 보고된 CVE의 총 개수
-
-
-
-## ==== 참고 자료 ====
-
-OWASP Top 10:2025 : [https://top10.owasp.org/2025/ko/A10_2025-Mishandling_of_Exceptional_Conditions/](https://top10.owasp.org/2025/ko/A10_2025-Mishandling_of_Exceptional_Conditions/)
-
-
-
-&nbsp;
+- [OWASP Top 10:2025 - A10 부적절한 예외 처리](https://top10.owasp.org/2025/ko/A10_2025-Mishandling_of_Exceptional_Conditions/)
+- [OWASP Top 10:2025 - 애플리케이션 보안 위험과 데이터 지표](https://top10.owasp.org/2025/0x02_2025-What_are_Application_Security_Risks/)
+- [OWASP Cheat Sheet - Error Handling](https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html)
+- [OWASP Cheat Sheet - Logging](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)
