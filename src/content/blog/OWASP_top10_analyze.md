@@ -2,6 +2,7 @@
 title: 'OWASP Top 10:2025 A10 - 부적절한 예외 처리'
 description: '예외 상황을 잘못 다루면 정보 노출, 서비스 거부, 거래 상태 오류로 이어지는 과정을 OWASP A10:2025를 바탕으로 정리합니다.'
 pubDate: 2026-11-23T13:06
+updatedDate: 2026-11-24
 category: 블로그/기술문서
 tags: ['OWASP Top 10', 'A10', '예외 처리', '애플리케이션 보안']
 draft: false
