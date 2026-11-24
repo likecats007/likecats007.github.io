@@ -679,6 +679,40 @@ button {
   text-transform: uppercase;
 }
 
+.prose .term-glossary-scroll {
+  max-height: min(55vh, 24rem);
+  overflow: auto;
+  border: 1px solid var(--fg-dim);
+  overscroll-behavior: contain;
+  scrollbar-color: var(--fg-dim) var(--bg-deep);
+}
+
+.prose .term-glossary-scroll table {
+  display: table;
+  width: 100%;
+  min-width: 34rem;
+  overflow: visible;
+  white-space: normal;
+}
+
+.prose .term-glossary-scroll th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--bg-deep);
+}
+
+.prose .term-glossary-scroll td {
+  vertical-align: top;
+  white-space: normal;
+}
+
+.prose .term-glossary-scroll th:first-child,
+.prose .term-glossary-scroll td:first-child {
+  width: 15rem;
+  white-space: nowrap;
+}
+
 /* Terminal tint for images: hero and in-post alike. */
 .post-hero,
 .about-photo {
