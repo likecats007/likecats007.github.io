@@ -50,3 +50,8 @@ OWASP Top 10은 비영리 보안 재단인 OWASP이 공격 데이터와 전문�
 
 ## ==== 참고 자료 ====
 
+OWASP Top 10:2025 : [https://top10.owasp.org/2025/ko/A10_2025-Mishandling_of_Exceptional_Conditions/](https://top10.owasp.org/2025/ko/A10_2025-Mishandling_of_Exceptional_Conditions/)
+
+
+
+&nbsp;
