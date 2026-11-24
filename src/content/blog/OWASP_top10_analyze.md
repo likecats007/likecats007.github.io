@@ -40,7 +40,7 @@ OWASP는 예외 처리 실패가 보안 문제로 이어지는 예시를 세 가
 
 사용자에게는 이해하기 쉬운 일반 오류를 보여주고, 스택 트레이스나 내부 경로 등 구현 정보는 응답에 포함하지 않는 편이 안전하다. 조사에 필요한 상세 정보는 서버 로그에 남기되, 비밀번호·토큰 같은 비밀 정보가 기록되지 않도록 해야 한다. 예상하지 못한 예외를 위한 전역 처리기를 두고, 반복되는 오류나 공격 징후를 모니터링해 필요하면 알림이나 제한을 적용할 수 있다. ([OWASP Error Handling Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html), [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html))
 
-설계 단계에서는 실패할 수 있는 조건과 복구 방법을 정하고, 코드 리뷰와 정적 분석으로 오류 처리 누락을 살펴봐야 한다. 테스트에서는 잘못되거나 누락된 입력, 네트워크·데이터베이스 오류, 권한 부족 상황을 만들고 자원 정리와 데이터 롤백이 제대로 되는지 확인할 수 있다. OWASP도 위협 모델링, 코드 리뷰, 스트레스·성능·침투 테스트를 대응 방안으로 제시한다. ([OWASP Top 10:2025 A10](https://top10.owasp.org/2025/ko/A10_2025-Mishandling_of_Exceptional_Conditions/))
+설계 단계에서는 실패할 수 있는 조건과 복구 방법을 정하고, 코드 리뷰와 정적 분석으로 오류 처리 누락을 살펴봐야 한다. 테스트에서는 잘못되거나 누락된 입력, 네트워크·데이터베이스 오류, 권한 부족 상황을 만들고 자원 정리와 데이터 롤백이 제대로 되는지 확인할 수 있다. OWASP Web Security Testing Guide는 입력 지점과 기대되는 데이터 형식을 파악한 뒤 비정상 입력을 보내고, 응답에 내부 정보가 노출되는지 살펴보는 점검 흐름을 제시한다. OWASP는 위협 모델링, 코드 리뷰, 스트레스·성능·침투 테스트도 대응 방안으로 권고한다. ([OWASP A10:2025](https://top10.owasp.org/2025/ko/A10_2025-Mishandling_of_Exceptional_Conditions/), [OWASP WSTG: Improper Error Handling 테스트](https://wstg.owasp.org/v4.2/4-Web_Application_Security_Testing/08-Testing_for_Error_Handling/01-Testing_For_Improper_Error_Handling/))
 
 ## OWASP 지표 읽기
 
@@ -68,3 +68,4 @@ A10을 읽으며 예외 처리는 오류 메시지를 출력하는 일에 그치
 - [OWASP Top 10:2025 - 애플리케이션 보안 위험과 데이터 지표](https://top10.owasp.org/2025/0x02_2025-What_are_Application_Security_Risks/)
 - [OWASP Cheat Sheet - Error Handling](https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html)
 - [OWASP Cheat Sheet - Logging](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)
+- [OWASP Web Security Testing Guide - Testing for Improper Error Handling](https://wstg.owasp.org/v4.2/4-Web_Application_Security_Testing/08-Testing_for_Error_Handling/01-Testing_For_Improper_Error_Handling/)
