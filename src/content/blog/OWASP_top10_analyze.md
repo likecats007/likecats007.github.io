@@ -1,5 +1,5 @@
 ---
-title: OWSAP Top 10 보안 동향 분석[임시]
+title: OWASP Top 10 보안 동향 분석[임시]
 description: .
 pubDate: 2026-11-23T13:06
 category: 블로그/기술문서
