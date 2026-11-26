@@ -1,8 +1,8 @@
 ---
 title: '내 데이터를 내려받았는데, 왜 내 데이터가 잘 안 보일까? - 관심분야 논문 분석'
 description: 'IEEE S&P 2026 논문을 통해 TikTok, Instagram, YouTube의 GDPR 데이터 다운로드 패키지 신뢰도와 이해도를 살펴본다.'
-pubDate: 2026-11-26
-category: '블로그/기술문서'
+pubDate: 2026-11-26T14:27
+category: '논문/컨퍼런스'
 tags: ['보안', '개인정보', 'GDPR', '논문리뷰', 'IEEE S&P']
 draft: false
 ---
@@ -98,7 +98,6 @@ Sai Keerthana Karnam et al., “Setting the Course, but Forgetting to Steer: Ana
 ### 미션에서 제공된 공식 컨퍼런스 링크
 
 - [IEEE S&P 2025 Accepted Papers](https://sp2025.ieee-security.org/accepted-papers.html)
-- [IEEE S&P 2026 Accepted Papers](https://sp2026.ieee-security.org/accepted-papers.html)
 - [USENIX Security 2025 Technical Sessions](https://www.usenix.org/conference/usenixsecurity25/technical-sessions)
 - [USENIX Security 2026 공식 페이지](https://www.usenix.org/conference/usenixsecurity26)
 - [USENIX Security 2026 Call for Papers](https://www.usenix.org/conference/usenixsecurity26/call-for-papers)
@@ -106,3 +105,4 @@ Sai Keerthana Karnam et al., “Setting the Course, but Forgetting to Steer: Ana
 - [ACM CCS 2025 Proceedings](https://dl.acm.org/doi/proceedings/10.1145/3719027)
 - [NDSS 2025 Accepted Papers](https://www.ndss-symposium.org/ndss2025/accepted-papers/)
 - [NDSS 2026 Accepted Papers](https://www.ndss-symposium.org/ndss2026/accepted-papers/)
+- [IEEE S&P 2026 Accepted Papers](https://sp2026.ieee-security.org/accepted-papers.html)
