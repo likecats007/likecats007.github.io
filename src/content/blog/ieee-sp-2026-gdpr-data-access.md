@@ -94,8 +94,6 @@ GDPR 제15조의 접근권은 이용자가 자신의 개인정보 처리에 관�
 
 ---
 
-## 출처
-
 ### 선정 논문
 
 Sai Keerthana Karnam et al., “Setting the Course, but Forgetting to Steer: Analyzing Compliance with GDPR’s Right of Access to Data by Instagram, TikTok, and YouTube,” *IEEE Symposium on Security and Privacy (S&P) 2026*, pp. 1646–1664. [IEEE Xplore 논문 정보](https://doi.org/10.1109/SP63933.2026.00051)
