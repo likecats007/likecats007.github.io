@@ -1,5 +1,5 @@
 ---
-title: '내 데이터를 내려받았는데, 왜 내 데이터가 잘 안 보일까?'
+title: '내 데이터를 내려받았는데, 왜 내 데이터가 잘 안 보일까? - 관심분야 논문 분석'
 description: 'IEEE S&P 2026 논문을 통해 TikTok, Instagram, YouTube의 GDPR 데이터 다운로드 패키지 신뢰도와 이해도를 살펴본다.'
 pubDate: 2026-11-26
 category: '블로그/기술문서'
@@ -89,5 +89,20 @@ GDPR 제15조의 접근권은 이용자가 자신의 개인정보 처리에 관�
 
 ---
 
-**논문 정보**  
-Sai Keerthana Karnam et al., “Setting the Course, but Forgetting to Steer: Analyzing Compliance with GDPR’s Right of Access to Data by Instagram, TikTok, and YouTube,” *IEEE Symposium on Security and Privacy (S&P) 2026*, pp. 1646–1664. DOI: [10.1109/SP63933.2026.00051](https://doi.org/10.1109/SP63933.2026.00051).
+## 출처
+
+### 선정 논문
+
+Sai Keerthana Karnam et al., “Setting the Course, but Forgetting to Steer: Analyzing Compliance with GDPR’s Right of Access to Data by Instagram, TikTok, and YouTube,” *IEEE Symposium on Security and Privacy (S&P) 2026*, pp. 1646–1664. [IEEE Xplore 논문 정보](https://doi.org/10.1109/SP63933.2026.00051)
+
+### 미션에서 제공된 공식 컨퍼런스 링크
+
+- [IEEE S&P 2025 Accepted Papers](https://sp2025.ieee-security.org/accepted-papers.html)
+- [IEEE S&P 2026 Accepted Papers](https://sp2026.ieee-security.org/accepted-papers.html)
+- [USENIX Security 2025 Technical Sessions](https://www.usenix.org/conference/usenixsecurity25/technical-sessions)
+- [USENIX Security 2026 공식 페이지](https://www.usenix.org/conference/usenixsecurity26)
+- [USENIX Security 2026 Call for Papers](https://www.usenix.org/conference/usenixsecurity26/call-for-papers)
+- [ACM CCS 2025 Accepted Papers](https://www.sigsac.org/ccs/CCS2025/accepted-papers/)
+- [ACM CCS 2025 Proceedings](https://dl.acm.org/doi/proceedings/10.1145/3719027)
+- [NDSS 2025 Accepted Papers](https://www.ndss-symposium.org/ndss2025/accepted-papers/)
+- [NDSS 2026 Accepted Papers](https://www.ndss-symposium.org/ndss2026/accepted-papers/)
