@@ -15,7 +15,7 @@ draft: false
 
 앱 설정에서 “내 데이터 다운로드”를 누르면 압축 파일을 받을 수 있다. 그런데 파일을 받았다고 해서 내 데이터가 다 보인다고 할 수 있을까? 내가 본 영상이 빠졌을 수도 있고, 왜 수집했는지나 누구와 공유하는지는 파일만 보고 알기 어렵다.
 
-이번에 읽은 논문은 TikTok, Instagram, YouTube가 제공하는 데이터 다운로드 패키지(이하 DDP)를 비교해 이 의문을 살핀다. 논문 제목은 *Setting the Course, but Forgetting to Steer: Analyzing Compliance with GDPR’s Right of Access to Data by Instagram, TikTok, and YouTube*다. IEEE Symposium on Security and Privacy 2026에 실린 논문이다. [IEEE Xplore 논문 정보](https://doi.org/10.1109/SP63933.2026.00051)
+이번에 읽은 논문은 TikTok, Instagram, YouTube가 제공하는 데이터 다운로드 패키지(이하 DDP)를 비교해 이 의문을 살핀다. 논문 제목은 *Setting the Course, but Forgetting to Steer: Analyzing Compliance with GDPR’s Right of Access to Data by Instagram, TikTok, and YouTube*다. IEEE Symposium on Security and Privacy 2026에 실린 논문이다. 
 
 ## 읽기 전에 먼저 생각한 것
 
