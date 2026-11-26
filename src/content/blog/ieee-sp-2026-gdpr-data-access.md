@@ -1,12 +1,17 @@
 ---
-title: '내 데이터를 내려받았는데, 왜 내 데이터가 잘 안 보일까? - 관심분야 논문 분석'
-description: 'IEEE S&P 2026 논문을 통해 TikTok, Instagram, YouTube의 GDPR 데이터 다운로드 패키지 신뢰도와 이해도를 살펴본다.'
+title: 내 데이터를 내려받았는데, 왜 내 데이터가 잘 안 보일까? - 관심분야 논문 분석
+description: IEEE S&P 2026 논문을 통해 TikTok, Instagram, YouTube의 GDPR 데이터 다운로드 패키지
+  신뢰도와 이해도를 살펴본다.
 pubDate: 2026-11-26T14:27
-category: '논문/컨퍼런스'
-tags: ['보안', '개인정보', 'GDPR', '논문리뷰', 'IEEE S&P']
+category: 논문/컨퍼런스
+tags:
+  - 보안
+  - 개인정보
+  - GDPR
+  - 논문리뷰
+  - IEEE S&P
 draft: false
 ---
-
 ## IEEE S&P 2026 논문 리뷰: *Setting the Course, but Forgetting to Steer*
 
 앱에서 “내 데이터 다운로드”를 눌러 압축 파일을 받으면, 우리는 플랫폼이 내 정보를 충분히 보여줬다고 생각하기 쉽다. 그런데 파일이 있다는 것과 그 안의 기록이 완전하고 정확하며 이해하기 쉽다는 것은 다른 문제다. 내가 본 영상은 빠져 있지 않을까? 플랫폼은 왜 이 정보를 모았고, 얼마나 보관하며, 누구와 공유했을까?
@@ -21,13 +26,13 @@ draft: false
 
 **기존 방식의 빈틈은 무엇인가?** 플랫폼이 데이터 내보내기 기능을 제공하는지 확인하는 것만으로는 충분하지 않다. 비슷한 서비스를 하는 플랫폼을 같은 기준으로 비교하고, 실제 사용 기록과 대조해 신뢰성을 점검하며, 이용자가 내용을 이해하는지까지 함께 살펴야 한다. 저자들은 이 세 가지 평가가 한 연구 안에서 연결되지 않았다는 점에 주목한다.
 
-## 기 — 권리는 있어도, 파일만으로는 충분하지 않다
+## 권리는 있어도, 파일만으로는 충분하지 않다
 
 GDPR 제15조의 접근권은 이용자가 자신의 개인정보 처리에 관한 정보를 받고 그 사본을 요청할 수 있게 한다. 제12조는 이런 설명이 투명하고 이해하기 쉬우며, 명확하고 평이한 언어로 제공돼야 한다고 요구한다. 다시 말해, 데이터 파일을 제공하는 것으로 끝나는 것이 아니라 그 파일이 무엇을 뜻하는지 설명하는 일도 중요하다. ([GDPR 원문](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng/))
 
 논문은 TikTok, Instagram, YouTube가 모두 짧은 영상 콘텐츠를 제공하고 EU의 대형 온라인 플랫폼으로 지정된 서비스라는 점을 비교 대상으로 삼는다. 그런데 비슷한 서비스를 제공해도 DDP의 형식과 내용은 서로 다르다. 연구의 핵심 질문도 세 갈래로 정리된다. 플랫폼별 공개 내용은 얼마나 다른가, 공개된 기록은 얼마나 믿을 수 있는가, 그리고 이용자는 그 기록을 이해할 수 있는가.
 
-## 승 — 공개 내용부터 신뢰도와 이해도까지 점검하다
+## 공개 내용부터 신뢰도와 이해도까지 점검하다
 
 저자들은 먼저 세 플랫폼의 DDP를 항목별로 비교했다. 시청·검색·좋아요 같은 이용 기록, 게시물과 계정 정보, 로그인 기록, 광고 및 다른 사이트에서 발생한 활동 등을 살펴보고, 기록 유무뿐 아니라 타임스탬프·콘텐츠 링크·기기 정보 같은 세부 항목도 비교했다. 또한 GDPR 제15조가 요구하는 처리 목적, 보관 기간, 데이터 수신자에 관한 설명이 제공되는지도 확인했다.
 
@@ -37,7 +42,7 @@ GDPR 제15조의 접근권은 이용자가 자신의 개인정보 처리에 관�
 
 마지막으로 개선안도 제안했다. 먼저 이용자 설문과 유럽 데이터보호이사회(EDPB) 지침을 참고해 대규모 언어 모델(LLM)이 데이터 항목 표현의 초안을 만들도록 하고, 연구자 세 명이 내용을 검토해 과도한 개인정보 수집이나 부정확한 항목을 걸러냈다. 그다음 간결한 요약, 원본에 가까운 데이터 보기, 항목별 설명을 붙인 투명성 보기 중 이용자가 원하는 방식을 고를 수 있는 브라우저 확장 프로그램 **Know Your Data**를 구현했다. DDP를 한 번에 요청하고 내려받는 기능도 포함했다. 제안된 표현은 별도의 200명 설문에서 기존 플랫폼 표현과 비교했다.
 
-## 전 — DDP는 서로 다르고, ‘좋은 표현’도 하나로 정해지지 않았다
+## DDP는 서로 다르고, ‘좋은 표현’도 하나로 정해지지 않았다
 
 ### 플랫폼마다 다른 기록 범위
 
@@ -69,7 +74,7 @@ GDPR 제15조의 접근권은 이용자가 자신의 개인정보 처리에 관�
 
 셋째, 수집과 비교가 2024년 말에 이루어졌다. 플랫폼의 내보내기 기능과 데이터 보관 정책은 바뀔 수 있으므로, 지금 다시 요청하면 결과가 달라질 가능성이 있다. Know Your Data의 투명성 화면은 플랫폼의 개인정보 안내에서 처리 목적이나 보관 관련 설명을 가져오는데, 그 안내가 실제 처리 관행을 얼마나 충실히 반영하는지도 별도 검증이 필요하다.
 
-## 결 — 다운로드 기능을 ‘사용자 통제’로 바꾸려면
+## 다운로드 기능을 ‘사용자 통제’로 바꾸려면
 
 이 논문을 읽으며 가장 크게 배운 점은 데이터 접근권이 파일 제공으로 완성되지 않는다는 것이다. 기록이 빠짐없고 반복해서 비슷하게 제공돼야 신뢰를 얻을 수 있고, 사용자가 그 기록을 읽고 의미를 판단할 수 있어야 권리가 실제 선택으로 이어진다. 연구진은 플랫폼을 비교하는 데 그치지 않고 측정 방법과 개선 도구까지 제시했다는 점에서 설득력이 있었다. 특히 간결성과 투명성을 서로 경쟁하는 요구로 다루고, 이용자에게 보기 방식을 선택하게 한 설계가 기억에 남았다.
 
@@ -95,14 +100,3 @@ GDPR 제15조의 접근권은 이용자가 자신의 개인정보 처리에 관�
 
 Sai Keerthana Karnam et al., “Setting the Course, but Forgetting to Steer: Analyzing Compliance with GDPR’s Right of Access to Data by Instagram, TikTok, and YouTube,” *IEEE Symposium on Security and Privacy (S&P) 2026*, pp. 1646–1664. [IEEE Xplore 논문 정보](https://doi.org/10.1109/SP63933.2026.00051)
 
-### 미션에서 제공된 공식 컨퍼런스 링크
-
-- [IEEE S&P 2025 Accepted Papers](https://sp2025.ieee-security.org/accepted-papers.html)
-- [USENIX Security 2025 Technical Sessions](https://www.usenix.org/conference/usenixsecurity25/technical-sessions)
-- [USENIX Security 2026 공식 페이지](https://www.usenix.org/conference/usenixsecurity26)
-- [USENIX Security 2026 Call for Papers](https://www.usenix.org/conference/usenixsecurity26/call-for-papers)
-- [ACM CCS 2025 Accepted Papers](https://www.sigsac.org/ccs/CCS2025/accepted-papers/)
-- [ACM CCS 2025 Proceedings](https://dl.acm.org/doi/proceedings/10.1145/3719027)
-- [NDSS 2025 Accepted Papers](https://www.ndss-symposium.org/ndss2025/accepted-papers/)
-- [NDSS 2026 Accepted Papers](https://www.ndss-symposium.org/ndss2026/accepted-papers/)
-- [IEEE S&P 2026 Accepted Papers](https://sp2026.ieee-security.org/accepted-papers.html)
