@@ -94,5 +94,5 @@ GDPR 제15조는 이용자가 자신의 개인정보에 접근하고 사본을 �
 
 ### 선정 논문
 
-Sai Keerthana Karnam et al., “Setting the Course, but Forgetting to Steer: Analyzing Compliance with GDPR’s Right of Access to Data by Instagram, TikTok, and YouTube,” *IEEE Symposium on Security and Privacy (S&P) 2026*, pp. 1646–1664. [IEEE Xplore 논문 정보](https://doi.org/10.1109/SP63933.2026.00051) · [IEEE S&P 2026 Accepted Papers](https://sp2026.ieee-security.org/accepted-papers.html)
+Sai Keerthana Karnam et al., “Setting the Course, but Forgetting to Steer: Analyzing Compliance with GDPR’s Right of Access to Data by Instagram, TikTok, and YouTube,” *IEEE Symposium on Security and Privacy (S&P) 2026*, pp. 1646–1664. [IEEE S&P 2026 Accepted Papers](https://sp2026.ieee-security.org/accepted-papers.html)
 
